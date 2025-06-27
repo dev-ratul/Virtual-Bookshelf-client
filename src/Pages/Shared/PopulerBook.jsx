@@ -40,14 +40,13 @@ const FeaturedCategories = ({ categories, onSelectCategory, selected }) => {
 };
 
 const PopulerBook = ({ populerBook }) => {
+  console.log(populerBook)
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // ডাইনামিক ক্যাটাগরি সংগ্রহ
   const categories = Array.from(
     new Set(populerBook.map((b) => b.book_category))
   );
 
-  // ক্যাটাগরি অনুযায়ী ফিল্টার
   const filteredBooks = selectedCategory
     ? populerBook.filter((b) => b.book_category === selectedCategory)
     : populerBook;
@@ -58,7 +57,6 @@ const PopulerBook = ({ populerBook }) => {
         Popular Books
       </h1>
 
-      {/* Featured Categories সেকশন */}
       <FeaturedCategories
         categories={categories}
         onSelectCategory={setSelectedCategory}

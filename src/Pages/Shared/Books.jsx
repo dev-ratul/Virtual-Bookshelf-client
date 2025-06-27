@@ -55,7 +55,7 @@ const Books = ({ Book, handleEdit, onDelete }) => {
                   toast.error("Something went wrong!");
                 });
             }}
-            className="px-3 py-1 rounded bg-red-500 hover:bg-red-600 text-white"
+            className="px-3 py-1 cursor-pointer rounded bg-red-500 hover:bg-red-600 text-white"
           >
             Delete
           </button>

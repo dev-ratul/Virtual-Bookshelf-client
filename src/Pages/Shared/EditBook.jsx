@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useLoaderData, useNavigate } from 'react-router';
+  import Swal from 'sweetalert2';
+
 
 const EditBook = () => {
   const data = useLoaderData();
@@ -20,21 +22,34 @@ const EditBook = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await fetch(`http://localhost:3000/updateBook/${data._id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    });
 
-    if (res.ok) {
-      alert("✅ Book updated successfully!");
-      navigate('/my-books');
-    } else {
-      alert("❌ Failed to update the book.");
-    }
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  const res = await fetch(`http://localhost:3000/updateBook/${data._id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+  });
+
+  if (res.ok) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Updated!',
+      text: 'Book updated successfully!',
+      showConfirmButton: false,
+      timer: 1500
+    }).then(() => {
+      navigate('/my-book');
+    });
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Failed to update the book.'
+    });
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-[#fefce8] via-[#f0fdf4] to-[#e0f2fe] dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-14 px-6">
@@ -107,7 +122,7 @@ const EditBook = () => {
   {/* Submit Button */}
   <button
     type="submit"
-    className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 rounded-lg shadow-md transition duration-300"
+    className="w-full cursor-pointer bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 rounded-lg shadow-md transition duration-300"
   >
     ✅ Update Book
   </button>

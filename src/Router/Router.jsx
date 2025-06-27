@@ -11,6 +11,7 @@ import EditBook from "../Pages/Shared/EditBook";
 import Profile from "../Pages/Shared/Profile";
 import PrivateRoute from "../Provider/PrivateRoute";
 import Error404 from "../Pages/Shared/Error404";
+import PopulerBook from "../Pages/Shared/PopulerBook";
 
 export const router = createBrowserRouter([
   {
@@ -37,7 +38,7 @@ export const router = createBrowserRouter([
         element:<PrivateRoute><AddBook></AddBook></PrivateRoute>
       },
       {
-        path: "book-shelf",
+        path: "/book-shelf",
         element: <BookShelf></BookShelf>,
         loader: () => {
           return fetch("http://localhost:3000/addBook");

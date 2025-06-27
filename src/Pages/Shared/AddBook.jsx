@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../Context/AuthContext/AuthContext";
+import Swal from 'sweetalert2';
+
 
 const AddBook = () => {
   const { user } = useContext(AuthContext);
@@ -21,18 +23,44 @@ const AddBook = () => {
     upvote: 0,
   };
 
-  fetch(`http://localhost:3000/addBook`,{
-    method: 'POST',
-    headers:{
-        'content-type': 'application/json'
-    },
-    body: JSON.stringify(book)
+  fetch(`https://virtual-bookshelf-server-zeta.vercel.app/addBook`, {
+  method: 'POST',
+  headers: {
+    'content-type': 'application/json'
+  },
+  body: JSON.stringify(book)
+})
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+    if (data.insertedId) {
+      Swal.fire({
+        title: '📚 Book Added!',
+        text: 'Your book has been successfully added to the shelf!',
+        icon: 'success',
+        confirmButtonColor: '#6366f1', // Indigo
+        confirmButtonText: 'Great!',
+      });
+    } else {
+      Swal.fire({
+        title: 'Oops!',
+        text: 'Something went wrong while adding the book.',
+        icon: 'error',
+        confirmButtonText: 'Try Again'
+      });
+    }
+    form.reset();
   })
-    .then(res=> res.json())
-    .then(data=> { 
-        console.log(data)
-    })
-    form.reset()
+  .catch(err => {
+    console.error(err);
+    Swal.fire({
+      title: 'Server Error!',
+      text: 'Failed to connect to the server.',
+      icon: 'error',
+      confirmButtonText: 'OK'
+    });
+  });
+
 }
   
 
@@ -196,7 +224,7 @@ const AddBook = () => {
         <div className="md:col-span-2 flex justify-center">
           <button
             type="submit"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-full font-semibold text-lg shadow-md transition"
+            className="bg-indigo-600 cursor-pointer hover:bg-indigo-700 text-white px-8 py-3 rounded-full font-semibold text-lg shadow-md transition"
           >
             ➕ Add Book
           </button>
